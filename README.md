@@ -18,9 +18,9 @@ Clean architecture with MVVM pattern.
 ![](https://koenig-media.raywenderlich.com/uploads/2019/06/Android-Clean-Architecture.png)  
 
 ## Pictures
-![img](https://i.imgur.com/Fev3ZlE.jpg?2[/img])
-![img](https://i.imgur.com/2HJmtAF.jpg[/img])
-![img](https://i.imgur.com/ghO33bU.jpg?1[/img])
-![img](https://i.imgur.com/eDSyNvu.jpg[/img])
 
-
+![img](https://i.imgur.com/DlCKb25.jpg?1[/img])
+![img](https://i.imgur.com/LHVX12F.jpg?1[/img])
+![img](https://i.imgur.com/6dqoMbn.jpg?1[/img])
+![img](https://i.imgur.com/4v0AHHv.jpg?1[/img])
+![img](https://i.imgur.com/c7K1WnT.jpg[/img])
