@@ -23,4 +23,4 @@ Clean architecture with MVVM pattern.
 ![img](https://i.imgur.com/LHVX12F.jpg?1[/img])
 ![img](https://i.imgur.com/6dqoMbn.jpg?1[/img])
 ![img](https://i.imgur.com/4v0AHHv.jpg?1[/img])
-![img](https://i.imgur.com/c7K1WnT.jpg[/img])
+![img](https://i.imgur.com/c7K1WnT.jpg?1[/img])
