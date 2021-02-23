@@ -1,0 +1,6 @@
+include ':usecases'
+include ':domain'
+include ':data'
+include ':TheCocktailHub-domain'
+include ':app'
+rootProject.name = "TheCocktailHub"

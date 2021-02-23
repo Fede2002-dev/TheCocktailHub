@@ -6,10 +6,10 @@ import com.balran.thecocktailhub.model.DrinkEntity
 @Dao
 interface CocktailsDao {
     @Query("SELECT * FROM drinkentity")
-    suspend fun getAllCocktails():List<DrinkEntity>
+    suspend fun getAllCocktails(): List<DrinkEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavourite(drink:DrinkEntity)
+    suspend fun insertFavourite(drink: DrinkEntity)
 
     @Delete
     suspend fun deleteFavourite(drink: DrinkEntity)

@@ -39,30 +39,32 @@ class RandomCocktailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btnRandomCocktail.setOnClickListener {
-            randomCocktailViewModel.fetchRandomCocktail.observe(viewLifecycleOwner, { resource ->
-                when (resource) {
-                    is Resource.Loading -> {
-                        startAnimation();binding.btnRandomCocktail.setDisabled()
-                    }
-                    is Resource.Success -> {
-                        goToDetailsFragment(resource.data)
-                    }
-                    is Resource.Failure -> {
-                        showToast("${resource.exception.message}")
-                        binding.btnRandomCocktail.setEnabled()
-                        stopAnimation()
-                    }
-                }
-            })
-        }
+        binding.btnRandomCocktail.setOnClickListener {randomCocktailViewModel.getRandomCocktail()}
+        setupObservers()
     }
 
     private fun goToDetailsFragment(drink: Drink) {
         val bundle = Bundle()
         bundle.putParcelable(Constants.ARG_DRINK, drink.toPresentationModel())
         findNavController().navigate(R.id.action_dashboardFragment_to_detailsFragment2, bundle)
+    }
+
+    private fun setupObservers(){
+        randomCocktailViewModel.randomCocktailData.observe(viewLifecycleOwner, { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    startAnimation();binding.btnRandomCocktail.setDisabled()
+                }
+                is Resource.Success -> {
+                    goToDetailsFragment(resource.data)
+                }
+                is Resource.Failure -> {
+                    showToast("${resource.exception.message}")
+                    binding.btnRandomCocktail.setEnabled()
+                    stopAnimation()
+                }
+            }
+        })
     }
 
     private fun startAnimation() {

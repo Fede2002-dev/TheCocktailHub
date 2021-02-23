@@ -13,6 +13,8 @@ import com.balran.usecases.local.IsCocktailFavourite
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 
 class DetailsFragmentViewModel(
     private val insertFavouriteCocktail: InsertFavouriteCocktail,
@@ -28,5 +30,7 @@ class DetailsFragmentViewModel(
         }
     }
 
-    suspend fun isCocktailFavourite(drink: Drink)=isCocktailFavourite.invoke(drink.toDomainModel())
+    fun isCocktailFavourite(drink: Drink):Boolean{
+        return runBlocking(Dispatchers.IO) { isCocktailFavourite.invoke(drink.toDomainModel()) }
+    }
 }

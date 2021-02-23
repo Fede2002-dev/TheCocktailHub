@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.balran.data.LocalCocktailsRepository
 import com.balran.thecocktailhub.R
 import com.balran.thecocktailhub.databinding.FragmentDetailsBinding
@@ -24,11 +25,13 @@ import com.balran.usecases.local.DeleteFavouriteCocktail
 import com.balran.usecases.local.InsertFavouriteCocktail
 import com.balran.usecases.local.IsCocktailFavourite
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
+import com.balran.domain.Drink as DomainDrink
 
 
 class DetailsFragment : Fragment() {
@@ -55,29 +58,27 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDetailsBinding.inflate(layoutInflater)
+        binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
+
         Glide.with(requireContext()).load(drink.image).centerCrop().into(binding.ivDrink)
         binding.cocktailTitle.text = drink.name
         binding.cocktailDesc.text = drink.instructions
-
+        drink.isFav = detailsFragmentViewModel.isCocktailFavourite(drink)
+        updateButtonIcon()
 
         binding.fabAddDeleteFav.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                detailsFragmentViewModel.saveOrDeleteCocktail(drink)
-                drink.isFav = !drink.isFav
-                updateButtonIcon()
-            }
-        }
+            detailsFragmentViewModel.saveOrDeleteCocktail(drink)
+            drink.isFav = !drink.isFav
+            updateButtonIcon() }
 
-        CoroutineScope(Dispatchers.IO).launch(Dispatchers.IO) {
-            drink.isFav = detailsFragmentViewModel.isCocktailFavourite(drink)
-            updateButtonIcon()
-        }
+        addChips(drink.toDomainModel())
     }
 
     private fun updateButtonIcon(){
@@ -86,5 +87,15 @@ class DetailsFragment : Fragment() {
                 drink.isFav -> R.drawable.ic_baseline_delete_24
                 else -> R.drawable.ic_baseline_favorite_white
             })
+    }
+
+    private fun addChips(drink: DomainDrink) {
+        for (ingredient in drink.ingredients) {
+            if (!ingredient.name.equals("") && ingredient.name != null) {
+                val chip = Chip(requireContext())
+                chip.text = ingredient.name
+                binding.chipGroupIngredients.addView(chip)
+            }
+        }
     }
 }

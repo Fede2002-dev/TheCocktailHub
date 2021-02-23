@@ -60,6 +60,7 @@ class CocktailSearchFragment : Fragment(), CocktailsListAdapter.OnCocktailClickL
         cocktailSearchViewModel.fetchCocktailData.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
+                    binding.emptyContainer.root.hide()
                     progress_circular.show()
                 }
                 is Resource.Success -> {
@@ -74,6 +75,7 @@ class CocktailSearchFragment : Fragment(), CocktailsListAdapter.OnCocktailClickL
                 is Resource.Failure -> {
                     showToast("Something has happened: ${it.exception.message}")
                     progress_circular.show()
+                    binding.emptyContainer.root.show()
                 }
             }
         })

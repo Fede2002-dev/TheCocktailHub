@@ -4,14 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.balran.thecocktailhub.model.DrinkEntity
+import com.balran.thecocktailhub.utils.DataConverter
 
-@Database(entities = [DrinkEntity::class], version = 1)
+
+@Database(entities = [DrinkEntity::class], version = 2)
+@TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun cocktailsDao(): CocktailsDao
 
     companion object {
+
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
@@ -19,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "cocktails_table"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
             return INSTANCE!!
         }
 
